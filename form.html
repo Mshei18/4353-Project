@@ -1,0 +1,113 @@
+<html>
+
+<head>
+	<title>Fuel Quote Form</title>
+</head>
+
+<body>
+	<div class="form-wrap">
+		<form id="my-form">
+
+			<div>
+				<label for="gallons">Gallons Requested:</label>
+				<input id="gallons" type="number">
+			</div>
+
+			<div>
+				<label for="date">Delivery Date:</label>
+				<input id="date" type="date">
+			</div>
+
+			<div>
+				<label for="address">Address:</label>
+				<input id="address" type="text">
+			</div>
+
+			<div>
+				<label for="price">Price Per Gallon:</label>
+				<input id="price" type="number" >
+			</div>
+			
+
+			<div>
+				<label for="total">Total Amount Due:</label>
+				<input id="total" type="number">
+			</div>
+
+			<div>
+				<input id="save" type="submit" value="Save Changes" disabled>
+			</div>
+		</form>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="../dist/jquery.dirrty.js"></script>
+	<script>
+
+		$("#my-form").dirrty().on("dirty", function(){
+			$("#status").html("dirty");
+			$("#save").removeAttr("disabled");
+		}).on("clean", function(){
+			$("#status").html("clean");
+			$("#save").attr("disabled", "disabled");
+		});
+
+	</script>
+
+	<style>
+	div{
+		padding:5px;
+	}
+	#save{
+	padding:0 30px;
+	line-height:50px;
+	height:50px;
+	background-color:black;
+	color:yellow;
+	border:solid yellow;
+
+}
+
+#save[disabled]{
+	background-color:black;
+}
+
+.form-wrap{
+	margin:20px;
+	width:300px;
+	padding:10px;
+}
+
+label{
+	display:block;
+}
+
+
+form{
+	border:1px dashed yellow;
+	padding:20px;
+	margin-left:750;
+	color: yellow;
+	background: black;
+	display: inline-block;
+}
+
+
+form div{
+	padding:5px;
+}
+
+input, select, textarea{
+	padding:5px;
+	border:1px solid #5e5e5e;
+	font-size:14px;
+}
+
+section{
+	margin-bottom:50px;
+}
+
+	</style>
+
+</body>
+</html>
