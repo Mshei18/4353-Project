@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> User Login </title>
+
+    <body>
+        <form action="/your-name/" method="post">
+            {% csrf_token %}
+
+            <div class ="bg">
+                <div class ="login">
+                    <h2> FuelQuota Login</h2>
+                    <div class ="form-box">
+                        <input type ="text" name = "username/email" placeholder="Enter Email/Username" onfocus="this.placeholder = ''"
+                        onblur="this.placeholder = 'Enter Email/Username'" required>
+                        
+                        <input type="password" name="password" placeholder="Enter Password" onfocus="this.placeholder = ''"
+                        onblur="this.placeholder = 'Enter Password'"required>
+                        
+                        <div class= "bottomright">
+                            <a href = "forgotPass.html"> Forgot Password?</a>
+                        </div>
+                        
+                        <div id="btn">
+                            <div class="button-box">
+                                <button type="submit" class="toggle-btn">Login</button>
+                                <button type="submit" class="toggle-btn">Register</button>
+                                <button type="submit" class="toggle-btn"><a href="form.html">Fuel Quote Form</a></button>
+                                <button type="submit" class="toggle-btn"><a href="Table.html">Fuel Quote History</a></button>
+                                <!-- 
+                                    change code above with example provided below and replace "__Code.html" with your filename
+                                <button type="submit" class="toggle-btn"><a href="MekyleCode.html">Login</a></button>
+                                <button type="submit" class="toggle-btn"><a href="JoyCode.html">Register</a></button> -->
+                            </div> 
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+        
+        
+    </body>
+</html>

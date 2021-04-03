@@ -1,4 +1,4 @@
-"""backend URL Configuration
+"""helloworld URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -12,21 +12,22 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+
+     path('homepage/', include('myapp.urls')),
+    path('homepage2/', include('myapp.urls')),
+    path('rango/index.html/', include('myapp.urls')),
+    path('your-name/', include('myapp.urls')),
+    path('test/', include('myapp.urls')),
 """
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework import routers
-from todo import views
-
-router = routers.DefaultRouter()
-router.register(r'todos', views.TodoView, 'todo')
-router.register(r'profile', views.ProfileView, 'profileview')
+from django.urls import include, path
 
 urlpatterns = [
+   
+    path('', include('myapp.urls')),
+
+    # so i think views correspond to urls somehow...
+    # would we have one of these fofr every page?
+
     path('admin/', admin.site.urls),
-    # path('api/', include('api.urls')),
-    # path('profile/', views.ProfileView, name='ProfileView'),
-    path('api/', include(router.urls)),
-
-
 ]
