@@ -1,0 +1,135 @@
+
+*{
+    margin:0;
+    padding: 0;
+}
+
+.bg{
+    height: 100%;
+    width:100%;
+    min-height: 100%;
+    min-width: 1024px;
+        
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+        
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(block.jpg);
+
+}
+
+
+.login{
+    margin:auto;
+    width:250px;
+    box-shadow:0px 8px 16px 0px rgba(0,0,0,0.9);
+    padding: 80px 40px;
+    margin-top:50px;
+    background:linear-gradient(top, #1f2129 0%, #000000 100%);
+    background:-webkit-linear-gradient(top, #1f2129 0%, #000000 100%);
+    /* background:linear-gradient(top, #3c3c3c 0%, #222222 100%);
+    background:-webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%); */
+}
+h2 {
+    margin: 0 0 30px 0;
+    padding:10px;
+    color: #efed40;
+    font-family:impact;
+    text-align:center;
+}
+input{
+    width: 100%;
+    margin-bottom:30px;
+}
+input[type=text], input[type=password]{
+    border:none;
+    outline:none;
+    border:2px #efed40 dotted;
+    background:transparent;
+    border-radius: 20px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size:16px;
+    padding:10px;
+    text-align:center;
+}
+::placeholder{
+    color:rgba(255,255,255,0.5);
+    font-family:monospace;
+    text-align:center;
+}
+/* input[type=submit]{
+    border:none;
+    outline:none;
+    padding:10px;
+    color: #fff;
+    font-size:16px;
+    font-family:Arial;
+    background:#ff267e;
+    cursor:pointer;
+    border-radius:20px;
+} */
+/* .botton-box{
+    position:absolute;
+    bottom: 200px;
+} */
+.toggle-btn {
+    border:none;
+    outline:none;
+    padding:10px 30px;
+    color: #fff;
+    font-size:16px;
+    font-family:monospace;
+    background:#ff267e;
+    cursor:pointer;
+    border-radius:30px;
+}
+button:hover{
+    background: #efed40;
+    color:#262626;
+}
+ #btn{
+    position: absolute;
+    bottom: 330px;
+} 
+/* input[type=submit]:hover{
+    background: #efed40;
+    color:#262626;
+} */
+.bottomright {
+    position: absolute;
+    bottom: 387px;
+    right: 600px;
+    font-size: 18px;
+  }
+.NPcenter-button{
+    position: absolute;
+    bottom: 310px;
+    right: 655px;
+    margin: 0 0 30px 0;
+    padding:10px;
+
+}
+.FPcenter-button{
+    position: absolute;
+    bottom: 370px;
+    right: 655px;
+    margin: 0 0 30px 0;
+    padding:10px;
+
+}
+a{
+    color: #fff;
+    font-size:14px;
+    font-family:monospace;
+    font-weight:bold;
+    text-decoration:none;
+    position: right;
+}
+a:hover{
+    text-decoration:underline;
+}

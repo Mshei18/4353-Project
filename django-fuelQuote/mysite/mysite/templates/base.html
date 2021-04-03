@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title> User Login </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ STATIC_URL}}style.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static '/templates/style.css' %}">
+    <style>
+        
+    </style>
+</head>
+<body>
+{% block content %}
+<div class ="bg">
+    <div class ="login">
+        <h2> FuelQuota Login</h2>
+        <div class ="form-box">
+            <input type ="text" name = "username/email" placeholder="Enter Email/Username" onfocus="this.placeholder = ''"
+            onblur="this.placeholder = 'Enter Email/Username'" required>
+            <input type="password" name="password" placeholder="Enter Password" onfocus="this.placeholder = ''"
+            onblur="this.placeholder = 'Enter Password'"required>
+            <div class= "bottomright">
+            <a href = "forgotPass.html"> Forgot Password?</a>
+            </div>
+            <div id="btn">
+            <div class="button-box">
+                <button type="submit" class="toggle-btn">Login</button>
+                <button type="submit" class="toggle-btn">Register</button>
+                <!-- 
+                    change code above with example provided below and replace "__Code.html" with your filename
+                <button type="submit" class="toggle-btn"><a href="MekyleCode.html">Login</a></button>
+                <button type="submit" class="toggle-btn"><a href="JoyCode.html">Register</a></button> -->
+            </div> 
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>
