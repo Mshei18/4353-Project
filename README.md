@@ -1,4 +1,5 @@
 
+Project located in FinalFinalProject Folder
 HOW TO RUN PROGRAM:
 
 1. Open up the FinalProject folder in VSCode
