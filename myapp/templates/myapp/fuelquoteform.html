@@ -65,7 +65,7 @@
     <body>
 
         <div class="header">
-            <a href="#default" class="logo">Fuel</a>
+            <a href="/" class="logo">Fuel</a>
             <div class="header-right">
                 <a href="/client/"> Profile Management </a>
                 <a href="/fuelquoteform/"> Fuel Quote Form </a>
@@ -82,10 +82,21 @@
                 {% csrf_token %}
                 
                
-                {{ form.as_p}} 
+                <!-- {{ form.as_p}}  -->
                 
+                
+                <!-- {% for field in form %}
+                    <p>
+                        {{ field.label }}
+                        {{ field }}
 
-                <!-- <div class="form-wrap">
+                        {% if field.label == "user" %}
+                            {{ form.user.as_hidden }}
+                        {% endif %}
+                    </p>
+                {% endfor %} -->
+
+                <div class="form-wrap">
                     
                     
                         <div>
@@ -95,8 +106,8 @@
             
                         <div>
                             <label for="address">Address:</label>
-                            <!-- {{form.delivery.address1}}-->
-                            <!--{{ latest_entry }} 
+                            {{form.deliveryAddress}}
+                            <!--{{ latest_entry }} -->
    
                         </div>
 
@@ -107,18 +118,20 @@
             
                         <div>
                             <label for="price">Price Per Gallon:</label>
-                            <!-- this should be caluculates using the pricing modeule-->
-                            <!--{{ form.suggestedPrice}}
+                           {{ form.suggestedPrice}}
                         </div>
                         
             
                         <div>
                             <label for="total">Total Amount Due:</label>
-                            <!-- this should be caluculates using the pricing modeule-->
-                            <!--{{form.totalAmount}}
+                           {{form.totalAmount}}
                         </div>
+
+                        <p>
+                          {{ form.username.as_hidden }}
+                        </p>
                    
-                </div> -->
+                </div> 
 
                 <input type="submit" name="Get_Quote" value="Get Quote"> 
                 <input type="submit" name="Submit_Quote" value="Submit Quote">      

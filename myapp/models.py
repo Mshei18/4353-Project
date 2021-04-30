@@ -1,5 +1,7 @@
 from django.db import models
+import datetime
 from django.core.validators import MinLengthValidator
+from django.contrib.auth.models import User
 from decimal import *
 
 
@@ -28,15 +30,22 @@ class fuelQuote(models.Model):
     deliveryDate =  models.DateField('Delivery Date')
     suggestedPrice = models.DecimalField('Suggested Price per Gallon',decimal_places=7, max_digits=100, default=Decimal('0.00000'))
     totalAmount = models.DecimalField('Total Amount', decimal_places=7, max_digits=100, default=Decimal('0.00000'))
+    # username = models.ForeignKey(Authentication, on_delete=models.CASCADE, null=True, blank=False)
+    username = models.CharField(max_length=20, null=True, blank=False)
+
+    # user = models.CharField('user', max_length=20, default ="")
+
 
 class PricingModule:
     def __init__(self, galls_req):
         self.current_price = 1.50
         self.galls_requested = galls_req
-        self.user = ClientProfile.objects.latest('id') 
+        # self.user = ClientProfile.objects.latest('id') 
+        # u = ClientProfile.objects.latest('id') 
+
 
     def state_factor(self):
-        if self.user.state == 'TX':
+        if ClientProfile.objects.latest('id').state == 'TX':
             return 0.02
         else:
             return 0.04

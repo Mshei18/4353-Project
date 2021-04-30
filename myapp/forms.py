@@ -26,12 +26,6 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ("username", "password1", "password2", )
 
-def save(self, commit=True):
-        user = super(RegisterForm, self).save(commit=False)
-        
-        if commit:
-            user.save()
-        return user
 
 class FuelQuoteForm(forms.ModelForm):
 
@@ -71,17 +65,23 @@ class FuelQuoteForm(forms.ModelForm):
     def __init__(self, *args, **kws):
        
         super().__init__(*args, **kws)
+        # lexeme = Authentication.objects.get(id=1)
+        # self.fields['uname'].initial = "lexeme"
         
         a1 = ClientProfile.objects.latest('id').address1
         a2 = ClientProfile.objects.latest('id').address2
         city = ClientProfile.objects.latest('id').city
         state = ClientProfile.objects.latest('id').state
         zip = ClientProfile.objects.latest('id').zipCode
+        if a2 is None:
+            a2 =""
         latest_entry = a1 + " " + a2 + " " + city + " " + state + " " + str(zip)
         self.fields["deliveryAddress"].initial = latest_entry
         self.fields["suggestedPrice"].initial = 0.0
         self.fields["totalAmount"].initial = 0.0
         self.fields["gallonsRequested"].initial = 1.0
+        # self.fields["uname"].initial = ""
+
        
         self.fields['deliveryAddress'].disabled = True
         self.fields['suggestedPrice'].disabled = True
