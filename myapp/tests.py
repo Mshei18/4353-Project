@@ -134,9 +134,9 @@ class Test_fqf(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user(username='user', password='test')
-        ClientProfile.objects.create(fullName = 'Jodie', address1 = '1234 Fawn Lane',  address2 = 'Mailbox 23', city = 'Frankfurt', state = 'AL', zipCode = 12345)
-        
-    def test_not_logged_in(self): 
+        ClientProfile.objects.create(user=self.user, fullName = 'Jodie', address1 = '1234 Fawn Lane',  address2 = 'Mailbox 23', city = 'Frankfurt', state = 'AL', zipCode = 12345)
+
+    def test_not_logged_in(self):
         response = self.client.get('/fuelquoteform/')
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/login/?next=/fuelquoteform/')
@@ -160,10 +160,9 @@ class Test_price_module(TestCase):
         
     def test_price_module(self):
         self.client.login(username='user', password='test')
-        res = PricingModule.state_factor('TX')
-        self.assertEqual(res, 0.02)
-
         p = PricingModule(1500)
+        res = p.state_factor()
+        self.assertEqual(res, 0.02)
 
         history_true = p.rate_history_factor()
         self.assertEqual(history_true, 0.01)

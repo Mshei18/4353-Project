@@ -14,12 +14,12 @@ from django.contrib.auth.decorators import login_required
 # register
 def register(request):
     if request.method == "POST":
-        form = RegisterForm(request.POST)       
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()  
+            form.save()
             user = form.cleaned_data.get('username')
-            messages.success(request, "the account was created for " + user) 
-            return redirect('/login/')  
+            messages.success(request, "the account was created for " + user)
+            return redirect('/login/')
 
     else:
         form = RegisterForm()
@@ -28,20 +28,16 @@ def register(request):
 # login
 def loginPage(request):
     if request.method == "POST":
-        form = AuthenticationForm(request.POST)       
+        form = AuthenticationForm(request.POST)
         if form.is_valid():
             username = request.POST.get('username')
             password = request.POST.get('password')
 
             user = authenticate(request, username=username, password=password)
-            
 
             if user is not None:
                 login(request, user)
-                # post = form.save()
-                # post.save() 
-                form.save()
-                return redirect('client') 
+                return redirect('client')
             else:
                 messages.error(request,'username OR password is not correct')
     else:
@@ -61,30 +57,33 @@ def home(request):
 #client
 @login_required(login_url = 'login')
 def client(request):
+    try:
+        existing_profile = request.user.profile
+    except ClientProfile.DoesNotExist:
+        existing_profile = None
+
     if request.method == "POST":
-        form = ClientForm(request.POST)       
+        form = ClientForm(request.POST, instance=existing_profile)
         if form.is_valid():
-            post = form.save()
-            post.save()  
-            return redirect('/fuelquoteform/')    
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect('/fuelquoteform/')
     else:
-        form = ClientForm()
+        form = ClientForm(instance=existing_profile)
     return render(request, 'client.html', {'form': form})
 
 # fuel quote form
 @login_required(login_url = 'login')
 def fuelquoteform(request):
-    a1 = ClientProfile.objects.latest('id').address1
-    a2 = ClientProfile.objects.latest('id').address2
-    city = ClientProfile.objects.latest('id').city
-    state = ClientProfile.objects.latest('id').state
-    zip = ClientProfile.objects.latest('id').zipCode
-    
-    
-    latest_entry = a1 + " " + a2 + " " + city + " " + state + " " + str(zip)
-            
+    try:
+        request.user.profile
+    except ClientProfile.DoesNotExist:
+        messages.error(request, 'Please complete your profile first.')
+        return redirect('/client/')
+
     if request.method == "POST":
-        form = FuelQuoteForm(request.POST) 
+        form = FuelQuoteForm(request.POST, user=request.user)
         if form.is_valid():
             if 'Get_Quote' in request.POST:
                 form.clean_suggPrice()
@@ -92,19 +91,16 @@ def fuelquoteform(request):
                 return render(request, 'fuelquoteform.html', context={"form": form})
 
             elif 'Submit_Quote' in request.POST:
-                
-                post = form.save()
+                post = form.save(commit=False)
                 post.suggestedPrice = form.clean_suggPrice()
-                post.totalAmount = form.clean_total() 
-                current_user = request.user
-                latest_user = Authentication.objects.latest('id').username
-                post.username = latest_user
+                post.totalAmount = form.clean_total()
+                post.username = request.user.username
                 post.save()
                 return redirect('/fuelquotehistory/')
     else:
-        form = FuelQuoteForm()
-    
-    return render(request, 'fuelquoteform.html', {'form': form, })
+        form = FuelQuoteForm(user=request.user)
+
+    return render(request, 'fuelquoteform.html', {'form': form})
 
 
 
@@ -112,9 +108,7 @@ def fuelquoteform(request):
 @login_required(login_url = 'login')
 def fuelquotehistory(request):
     current_user = request.user
-    all_entries = fuelQuote.objects.filter(username=current_user).values()
+    all_entries = fuelQuote.objects.filter(username=current_user.username).values()
     context= {'all_entries': all_entries}
-    
+
     return render(request, 'fuelquotehistory.html', context)
-
-
