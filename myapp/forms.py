@@ -10,7 +10,7 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model = ClientProfile
         fields = ('fullName', 'address1',  'address2', 'city', 'state', 'zipCode',)
-    
+
 class DateInput(forms.DateInput):
     input_type = 'date'
 
@@ -26,12 +26,6 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ("username", "password1", "password2", )
 
-def save(self, commit=True):
-        user = super(RegisterForm, self).save(commit=False)
-        
-        if commit:
-            user.save()
-        return user
 
 class FuelQuoteForm(forms.ModelForm):
 
@@ -44,45 +38,40 @@ class FuelQuoteForm(forms.ModelForm):
 
     def clean_suggPrice(self):
         galls = self.cleaned_data['gallonsRequested']
-        module = PricingModule(galls)
-
-
+        username = self.user.username if self.user else None
+        module = PricingModule(galls, username)
         sugg_price = module.margin()
-        print("SUGG1", sugg_price)
-
         final_sugg_price = Decimal(sugg_price + 1.5)
         round_sugg_price = round(final_sugg_price, 5)
         self.fields['suggestedPrice'].initial = round_sugg_price
-
-        print("SUGG2", round_sugg_price)
         return round_sugg_price
 
     def clean_total(self):
         galls = self.cleaned_data['gallonsRequested']
-        module = PricingModule(galls)
-
+        username = self.user.username if self.user else None
+        module = PricingModule(galls, username)
         dec_total = Decimal(module.calculate())
         total = round(dec_total, 3)
         self.fields['totalAmount'].initial = total
-        print("totalAmount", total)
         return total
 
-
-    def __init__(self, *args, **kws):
-       
+    def __init__(self, *args, user=None, **kws):
         super().__init__(*args, **kws)
-        
-        a1 = ClientProfile.objects.latest('id').address1
-        a2 = ClientProfile.objects.latest('id').address2
-        city = ClientProfile.objects.latest('id').city
-        state = ClientProfile.objects.latest('id').state
-        zip = ClientProfile.objects.latest('id').zipCode
-        latest_entry = a1 + " " + a2 + " " + city + " " + state + " " + str(zip)
-        self.fields["deliveryAddress"].initial = latest_entry
+        self.user = user
+
+        if user:
+            try:
+                profile = user.profile
+                a2 = profile.address2 or ''
+                latest_entry = profile.address1 + " " + a2 + " " + profile.city + " " + profile.state + " " + str(profile.zipCode)
+                self.fields["deliveryAddress"].initial = latest_entry
+            except ClientProfile.DoesNotExist:
+                pass
+
         self.fields["suggestedPrice"].initial = 0.0
         self.fields["totalAmount"].initial = 0.0
         self.fields["gallonsRequested"].initial = 1.0
-       
+
         self.fields['deliveryAddress'].disabled = True
         self.fields['suggestedPrice'].disabled = True
         self.fields['totalAmount'].disabled = True
